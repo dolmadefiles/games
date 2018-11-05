@@ -1,0 +1,40 @@
+# Name of the dolmade (very restricted by udocker)
+# FIXME TODO this is not done and doesnt work yet!
+DOLMADE
+    Harry_Potter_KammerDesSchreckens
+
+# Docker image to use as a base
+BASE
+    dolmades/winestable
+
+# Ingredients: sha256 / file name / display name / URL #1 / URL #2 / ...
+INGREDIENT
+    f39dea9c93c759292c762ceec196e0a0691ab66223a4c99091d14b6a5df2b88b
+    HP2.iso
+    ISO file Harry Potter Chamber of Secrets - EA Games
+    file:///~/HP2.iso
+
+# Run a command inside the dolmade
+# PWD is the install folder
+RUNUSER
+    mkdir -p hp2 &&
+    cd hp2 &&
+    7z -y x ../HP2.iso &&
+    wine AutoRun.exe && 
+    wineserver -w && 
+    cd .. &&
+    rm -rf hp2
+
+#RUNUSER
+#    winetricks directx9 && 
+#    winetricks --force xact
+
+#RUNUSER
+#    cp "/wineprefix/drive_c/Program Files/Drakensang/game.ico" /install
+
+# Set icon for the Desktop shortcut
+ICON
+    Game.ico
+
+SETTARGET
+    echo "$(find /wineprefix/ -name drakensang.exe)"
