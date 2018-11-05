@@ -1,0 +1,41 @@
+# Name of the dolmade (very restricted by udocker)
+DOLMADE
+    Drakensang-TRoT
+
+# Docker image to use as a base
+BASE
+    dolmades/winestable
+
+# Ingredients: sha256 / file name / display name / URL #1 / URL #2 / ...
+INGREDIENT
+    f39dea9c93c759292c762ceec196e0a0691ab66223a4c99091d14b6a5df2b88b
+    Drakensang_PlatinumEdition.iso
+    ISO file Drakensang Platinum Edition
+    file:///home/stefan/Drakensang_PlatinumEdition.iso
+
+# Run a command inside the dolmade
+# PWD is the install folder
+RUNUSER
+    mkdir -p drakensang &&
+    cd drakensang &&
+    7z -y x ../Drakensang_PlatinumEdition.iso &&
+    echo "NOW INSTALL JUST DRAKENSANG-TheRiverOfTime..." &&
+    wine StartUp.exe && 
+    echo "WAITING UNTIL DONE..." && 
+    wineserver -w && 
+    cd .. &&
+    rm -rf drakensang
+
+RUNUSER
+    winetricks directx9 && 
+    winetricks --force xact
+
+RUNUSER
+    cp "/wineprefix/drive_c/Program Files/Drakensang - Am Fluss der Zeit/game.ico" /install
+
+# Set icon for the Desktop shortcut
+ICON
+    game.ico
+
+SETTARGET
+    echo "$(find /wineprefix/ -name drakensang.exe)"
